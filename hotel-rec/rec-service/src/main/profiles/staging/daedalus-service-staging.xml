@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+       <bean id="daedalusThriftPoolConfig"
+             class="com.meituan.service.mobile.mtthrift.client.pool.MTThriftPoolConfig">
+              <property name="maxActive" value="100"/>
+              <property name="minIdle" value="10"/>
+              <property name="maxIdle" value="50"/>
+              <property name="testOnBorrow" value="true"/>
+              <property name="testOnReturn" value="true"/>
+              <property name="testWhileIdle" value="true"/>
+       </bean>
+
+       <bean id="daedalusThriftProxy" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+             destroy-method="destroy">
+              <property name="mtThriftPoolConfig" ref="daedalusThriftPoolConfig"/>
+              <property name="serviceInterface" value="com.meituan.hotel.daedalus.message.RPCDaedalusService"/>
+              <property name="timeout" value="1000"/>
+              <property name="serverDynamicWeight" value="true"/>
+              <property name="appKey" value="${appkey}"/>
+              <property name="remoteAppkey" value="com.meituan.hotel.daedalus.prod"/>
+              <property name="remoteServerPort" value="8499"/>
+              <property name="clusterManager" value="octo"/>
+       </bean>
+
+       <!-- ************************************************************************************************************ -->
+       <bean id="daedalusIdThriftPoolConfig"
+             class="com.meituan.service.mobile.mtthrift.client.pool.MTThriftPoolConfig">
+              <property name="maxActive" value="100"/>
+              <property name="minIdle" value="10"/>
+              <property name="maxIdle" value="50"/>
+              <property name="testOnBorrow" value="true"/>
+              <property name="testOnReturn" value="true"/>
+              <property name="testWhileIdle" value="true"/>
+       </bean>
+
+       <bean id="daedalusIdThriftProxy" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+             destroy-method="destroy">
+              <property name="mtThriftPoolConfig" ref="daedalusIdThriftPoolConfig"/>
+              <property name="serviceInterface" value="com.meituan.hotel.daedalus.message.RPCDaedalusIdService"/>
+              <property name="timeout" value="1000"/>
+              <property name="serverDynamicWeight" value="true"/>
+              <property name="appKey" value="${appkey}"/>
+              <property name="remoteAppkey" value="com.meituan.hotel.daedalusid"/>
+              <property name="remoteServerPort" value="8599"/>
+              <property name="clusterManager" value="octo"/>
+       </bean>
+
+       <!-- ************************************************************************************************************ -->
+
+       <bean id="hotelPoiClient" class="com.meituan.hotel.daedalus.client.HotelPoiClient" init-method="init" scope="singleton"
+             depends-on="daedalusThriftProxy">
+              <property name="daedalusClient" ref="daedalusThriftProxy"/>
+              <property name="daedalusIdClient" ref="daedalusIdThriftProxy"/>
+       </bean>
+
+</beans>

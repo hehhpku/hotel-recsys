@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:rediscloud-auth-test.xml"/><!-- it is necessary to use redis，if online use rediscloud-auth-online.xml-->
+    <bean id="medisClient" class="com.meituan.cache.redisCluster.client.MedisBean">
+          <property name="authDao" ref="zkAuthDao"/>
+          <property name="poolId" value="hotel-select-recommend-offline"/>
+          <property name="authKey" value="hotelSelectRecommendDB"/>
+    </bean>
+    <!-- room status-->
+    <bean id="hotelRsClient" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy" destroy-method="destroy">
+        <property name="clusterManager" value="octo"/>
+        <property name="appKey" value="${appkey}"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.cos.rsquery.beta"/>
+        <property name="remoteServerPort" value="9200"/>
+        <property name="serviceInterface" value="com.meituan.hotel.rs.search.thrift.service.IHotelRsFilterService"/> <!-- service接口名 -->
+        <property name="timeout" value="500"/>
+    </bean>
+    <!-- sinai-->
+    <bean id="localAppKey" class= "java.lang.String" scope="prototype">
+        <constructor-arg value="${appkey}"/>
+    </bean>
+    <import resource="classpath:poi-client-server.xml"/>
+
+    <!-- config strategy-->
+    <import resource="classpath*:abtest-strategy-offline.xml"/>
+
+    <!-- rec-data-->
+    <bean id="recDataServiceKey" class="java.lang.String" scope="prototype">
+        <constructor-arg value="${appkey}"/>
+    </bean>
+    <import resource="classpath:hotelRecData-client-test.xml"/>
+    <!--data-hub-->
+    <import resource="classpath:datahub-client-test.xml"/>
+
+    <!-- stid service-->
+    <bean id="recStidClient" class="com.meituan.hotel.rec.service.external.RecStidClient">
+        <property name="stidUrl" value="http://192.168.2.175:8702/api/v1/strategy/regist"/>
+    </bean>
+
+    <!-- daedalus -->
+    <import resource="daedalus-service.xml"/>
+</beans>

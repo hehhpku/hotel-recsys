@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- redis-->
+    <import resource="classpath:rediscloud-auth-online.xml"/>
+    <bean id="medisClient" class="com.meituan.cache.redisCluster.client.MedisBean">
+        <property name="authDao" ref="zkAuthDao"/>
+        <property name="poolId" value="hotel-recsys-select"/>
+        <property name="authKey" value="hotelSelectRecommendDB"/>
+    </bean>
+
+    <!-- room status-->
+    <bean id="hotelPoiTagFilterClient" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy" destroy-method="destroy">
+        <property name="clusterManager" value="octo"/>
+        <property name="appKey" value="${appkey}"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.cos.rsquery"/>
+        <property name="remoteServerPort" value="9200"/>
+        <property name="serviceInterface" value="com.meituan.hotel.rs.search.thrift.service.IHotelRsFilterService"/> <!-- service接口名 -->
+        <property name="timeout" value="10"/> <!-- thrift rpc 超时时间（毫秒） -->
+    </bean>
+
+    <!-- sinai-->
+    <bean id="localAppKey" class= "java.lang.String" scope="prototype">
+        <constructor-arg value="${appkey}"/>
+    </bean>
+    <import resource="classpath:poi-client-server.xml"/>
+
+    <!-- config strategy-->
+    <import resource="classpath*:abtest-strategy-online.xml"/>
+
+    <!-- rec-data-->
+    <bean id="recDataServiceKey" class="java.lang.String" scope="prototype">
+        <constructor-arg value="${appkey}"/>
+    </bean>
+    <import resource="classpath:hotelRecData-client-online.xml"/>
+    <!-- datahub-->
+    <import resource="classpath:datahub-client-online.xml"/>
+
+    <!-- stid service-->
+    <bean id="recStidClient" class="com.meituan.hotel.rec.service.external.RecStidClient">
+        <property name="stidUrl" value="http://config.mobile.vip.sankuai.com/api/v1/strategy/regist"/>
+    </bean>
+
+    <!-- daedalus -->
+    <import resource="daedalus-service.xml"/>
+</beans>

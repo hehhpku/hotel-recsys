@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="recLog" class="com.meituan.hotel.rec.service.log.RecLog" autowire="byName">
+              <property name="loggerMap">
+                     <map>
+                         <entry key="POI_DETAIL_REC" value-ref="poi-detail-rec-log-service"/>
+                         <entry key="SEARCH_REC" value-ref="search-rec-log-service"/>
+                         <entry key="SELECT_REC" value-ref="select-rec-log-service"/>
+                         <entry key="REC_PREORDER_POI" value-ref="poi-detail-rec-log-service"/>
+                         <entry key="REC_VACATION_POI" value-ref="simple-log-service"/>
+                     </map>
+              </property>
+       </bean>
+
+    <bean id="recInitializer" class="com.meituan.hotel.rec.service.init.RecInitializer">
+        <property name="initializerMap">
+            <map>
+                <entry key="POI_DETAIL_REC" value-ref="poidetail-rec-initializer"/>
+                <entry key="SEARCH_REC" value-ref="search-rec-initializer"/>
+                <entry key="SELECT_REC" value-ref="select-rec-initializer"/>
+                <entry key="REC_PREORDER_POI" value-ref="poidetail-rec-initializer"/>
+            </map>
+        </property>
+    </bean>
+</beans>

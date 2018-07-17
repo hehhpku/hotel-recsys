@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       <import resource="classpath:rediscloud-auth-online.xml"/>
+
+       <bean id="medisClient" class="com.meituan.cache.redisCluster.client.MedisBean">
+              <property name="authDao" ref="zkAuthDao"/>
+              <property name="poolId" value="hotel-recsys-select"/>
+              <property name="authKey" value="hotelSelectRecommendDB"/>
+       </bean>
+
+       <!-- config strategy-->
+       <import resource="classpath*:abtest-strategy-offline.xml"/>
+       <bean id="strategyGetter" class="com.meituan.hotel.rec.cross.impl.Util.StrategyGetter" autowire="byName"/>
+
+</beans>

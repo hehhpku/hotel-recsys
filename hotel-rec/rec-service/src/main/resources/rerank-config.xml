@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="featureAssembler" class="com.meituan.hotel.rec.service.rerank.feature.FeatureAssembler" autowire="byName">
+              <property name="featureLoaderMap">
+                     <map>
+                            <entry key="POI_DYNAMIC_FEATURE" value-ref="poi-dyf-feature-loader"/>
+                            <entry key="USER_DYNAMIC_FEATURE" value-ref="user-dyf-feature-loader"/>
+                            <entry key="USER_REAL_TIME_FEATURE" value-ref="user-real-time-feature-loader"/>
+                     </map>
+              </property>
+       </bean>
+
+       <bean id="rerankRouter" class="com.meituan.hotel.rec.service.rerank.RerankRouter">
+              <property name="rerankerMap">
+                     <!-- strategy -> rerank service map-->
+                     <map>
+                            <!-- select-rec-->
+                            <entry key="rerank_gbdt_v3_user_dynamic_feature" value-ref="rerank-selectrec-gbdt_v3-service"/>
+                            <entry key="rerank_gbdt_v4_RTFeature" value-ref="rerank_gbdt_v4_RTFeature"/>
+                            <!-- search-rec-->
+                            <entry key="gbdt_v2" value-ref="rerank-searchrec-gbdt_v2-service"/>
+                            <entry key="xgboost_20160328" value-ref="rerank-searchrec-Xgboost_20160328"/>
+                            <entry key="xgboost_20160411" value-ref="rerank-searchrec-Xgboost_20160411"/>
+                            <!-- poi-detail-rec-->
+                            <entry key="relation_v2p_llr_model_recommender" value-ref="simple-rerank-service"/>
+                            <entry key="relation_v2p_model_recommender" value-ref="simple-rerank-service"/>
+                            <entry key="distance_based_recommender" value-ref="simple-rerank-service"/>
+                            <entry key="xgboost_v1_postrerank_recommender" value-ref="rerank-poidetailrec-xgboost-v1-service"/>
+                            <entry key="xgboost_v1_recommender" value-ref="rerank-poidetailrec-xgboost-v1-service"/>
+                            <entry key="xgboost_v1_llrv2p_modified" value-ref="rerank-poidetailrec-xgboost-v1-service"/>
+                            <entry key="xgboost_v1_realtime_view_llrv2p" value-ref="rerank-poidetailrec-xgboost-v1-service"/>
+                            <entry key="xgboost_v2_recommender" value-ref="rerank-poidetailrec-xgboost-v2-service"/>
+                            <entry key="xgboost_v3_recommender" value-ref="rerank-poidetailrec-xgboost-v3-service"/>
+                     </map>
+              </property>
+       </bean>
+
+</beans>

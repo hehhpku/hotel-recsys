@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hbdata-rec</artifactId>
+        <groupId>com.meituan.hotel.recommend</groupId>
+        <version>1.0.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rec-service</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.meituan.hotel.recommend</groupId>
+            <artifactId>rec-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.meituan.hotel.recommend</groupId>
+            <artifactId>xgboost-predict</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- rec的接口文件-->
+        <dependency>
+            <groupId>com.meituan.hotel.recommend</groupId>
+            <artifactId>rec-idl</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- datahub-->
+        <dependency>
+            <groupId>com.meituan.hotel.data</groupId>
+            <artifactId>datahub-client</artifactId>
+        </dependency>
+        <!-- 房态查询-->
+        <dependency>
+            <groupId>com.meituan.hotel</groupId>
+            <artifactId>hotel-rs-search-lib</artifactId>
+        </dependency>
+        <!-- medis-->
+        <dependency>
+            <groupId>com.meituan.cache</groupId>
+            <artifactId>redis-cluster-client</artifactId>
+        </dependency>
+        <!-- poi client-->
+        <dependency>
+            <groupId>com.meituan.service.mobile.poi</groupId>
+            <artifactId>sinai.client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.reflections</groupId>
+                    <artifactId>reflections</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- daedalus -->
+        <dependency>
+            <groupId>com.meituan.hotel.daedalus</groupId>
+            <artifactId>daedalus.client</artifactId>
+            <version>0.0.5.9</version>
+        </dependency>
+        <!-- abtest-->
+        <dependency>
+            <groupId>com.meituan.hotel.data.common</groupId>
+            <artifactId>abtest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.meituan.mobile.recommend</groupId>
+            <artifactId>gbdt</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 酒店推荐数据服务-->
+        <dependency>
+            <groupId>com.meituan.hotel.recommend</groupId>
+            <artifactId>rec-data-client</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- 中文分词-->
+        <dependency>
+            <groupId>org.ansj</groupId>
+            <artifactId>ansj_seg</artifactId>
+            <version>0.9</version>
+        </dependency>
+        <!--data service-->
+        <dependency>
+            <groupId>com.meituan.mobile.service.recommend</groupId>
+            <artifactId>dataservice</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xercesImpl</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.meituan.service.mobile.poi</groupId>
+                    <artifactId>sinai.client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 日志收集-->
+        <dependency>
+            <groupId>com.meituan.scribe</groupId>
+            <artifactId>scribe-log4j</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libfb303</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+
+        <!-- 工具 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <!-- meituan 组件 -->
+        <dependency>
+            <groupId>com.meituan</groupId>
+            <artifactId>jmonitor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sankuai.mms</groupId>
+            <artifactId>mms-boot</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.meituan.service.mobile</groupId>
+            <artifactId>mtthrift</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.meituan.mtrace</groupId>
+            <artifactId>mtrace</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/profiles/local</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>test</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/profiles/test</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>staging</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/profiles/staging</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>online</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/profiles/online</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>${project.artifactId}-release-${project.version}</finalName>
+
+        <!-- 声明插件  -->
+        <plugins>
+            <!-- 资源插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- 编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.12.v20130726</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,10 @@
+SELECT
+      poi_id,
+      user_id,
+FROM
+      %s
+WHERE
+   status = 1
+   AND UNIX_TIMESTAMP(create_time) >= %s
+   AND  user_id IS  NOT NULL
+   AND  poi_id IS NOT NULL

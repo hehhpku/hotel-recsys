@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="postRankRouter" class="com.meituan.hotel.rec.service.postrank.PostRankRouter" autowire="byName">
+              <property name="postRankerMap">
+                     <!-- strategy 2 post-ranker map-->
+                     <map>
+                            <entry key="strategyName" value-ref="simple-post-rank-service"/>
+                            <!-- 详情页推荐-->
+                            <entry key="relation_v2p_llr_model_recommender" value-ref="simple-post-rank-service"/>
+                            <entry key="xgboost_v1_recommender" value-ref="simple-post-rank-service"/>
+                            <entry key="xgboost_v2_recommender" value-ref="distance-based-post-rank-service"/>
+                            <entry key="xgboost_v3_recommender" value-ref="distance-based-post-rank-service"/>
+                            <entry key="xgboost_v1_postrerank_recommender" value-ref="distance-based-post-rank-service"/>
+                     </map>
+              </property>
+       </bean>
+</beans>

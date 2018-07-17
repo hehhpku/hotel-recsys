@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="rawRankRouter" class="com.meituan.hotel.rec.service.rawRank.RawRankRouter"
+          autowire="byName">
+        <!-- config策略制定粗排策略-->
+        <property name="strategyServiceMap">
+            <map>
+                <entry key="simple-strategy" value-ref="simple-raw-rank-service"/>
+                <!-- 详情页推荐-->
+                <entry key="relation_v2p_model_recommender" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="xgboost_v1_postrerank_recommender" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="xgboost_v1_recommender" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="xgboost_v2_recommender" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="xgboost_v3_recommender" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="relation_v2p_llr_model_recommender" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="distance_based_recommender" value-ref="poi-detail-rec-based-ranker"/>
+            </map>
+        </property>
+        <!-- 服务类型的默认粗排方法-->
+        <property name="serviceTypeRawRankerMap">
+            <map>
+                <entry key="SELECT_REC" value-ref="select-rec-raw-rank-service"/>
+                <entry key="SEARCH_REC" value-ref="search-rec-raw-rank-service"/>
+                <entry key="POI_DETAIL_REC" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="REC_PREORDER_POI" value-ref="poi-detail-rec-corr-ranker"/>
+                <entry key="CROSS_REC" value-ref="simple-raw-rank-service"/>
+                <entry key="REC_VACATION_POI" value-ref="simple-raw-rank-service"/>
+            </map>
+        </property>
+    </bean>
+</beans>

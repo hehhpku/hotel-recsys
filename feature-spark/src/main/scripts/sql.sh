@@ -1,0 +1,20 @@
+SELECT
+uuid,
+json_extract_scalar(request,'$.clientType') clientType,
+json_extract_scalar(request,'$.accommodationType') accommodationType,
+json_extract_scalar(request,'$.appVersion') appVersion,
+json_extract_scalar(request,'$.strategy') strategy,
+json_extract_scalar(request,'$.sortingMethod') sortingMethod,
+if(response is null,"[]", response) response,
+cityid cityid,
+position position,
+if(offset is null,0,offset) offset,
+actiontime actiontime,
+if(globalid is null,"0",globalid) globalid,
+feature feature,
+userid userid,
+poiid poiid,
+isview isview,
+isorder isorder,
+ispay ispay
+FROM ns_hotel.mining_rec_selrec_service WHERE dt='20160105' LIMIT 100

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="recallRouter" class="com.meituan.hotel.rec.service.recall.RecallRouter"
+          autowire="byName">
+        <!-- config策略->默认召回策略的映射-->
+        <property name="strategyMap">
+            <map>
+                <!-- 筛选推荐策略默认映射表-->
+                <entry key="simple_strategy" value="cityPoiRecallStrategy"/>
+                <entry key="rerank_gbdt_v3_user_dynamic_feature" value="cityPoiRecallStrategy"/>
+                <entry key="rerank_gbdt_v4_RTFeature" value="cityPoiRecallStrategy"/>
+                <!-- 详情页推荐-->
+                <entry key="relation_v2p_llr_model_recommender" value="poiCorrV2PLLRRecallerStrategy"/>
+                <entry key="relation_v2p_model_recommender" value="poiCorrV2PRecallStrategy"/>
+                <entry key="distance_based_recommender" value="cityPoiRecallStrategy"/>
+                <entry key="xgboost_v1_postrerank_recommender" value="poiCorrV2PLLRRecallerStrategy"/>
+                <entry key="xgboost_v1_recommender" value="poiCorrV2PLLRRecallerStrategy"/>
+                <entry key="xgboost_v2_recommender" value="poiCorrV2PLLRRecallerStrategy"/>
+                <entry key="xgboost_v3_recommender" value="poiCorrV2PLLRRecallerStrategy"/>
+                <entry key="xgboost_v1_llrv2p_modified" value="poiCorrModifiedRecallerStrategy"/>
+                <entry key="xgboost_v1_realtime_view_llrv2p" value="poiRecentViewCorrRecallerStrategy"/>
+                <!-- 搜索推荐-->
+                <!-- 度假页推荐-->
+                <entry key="city_hot_recommender" value="cityHotPoiRecallStrategy"/>
+                <!-- 高星级推荐-->
+                <entry key="high_star_recommender" value="highStarPoiRecallerStrategy"/>
+            </map>
+        </property>
+        <!-- 召回策略-> 召回服务的映射-->
+        <property name="stringIRecallerMap">
+            <map>
+                <entry key="cityPoiRecallStrategy" value-ref="city-poi-recall-service"/>
+                <entry key="cityHotPoiRecallStrategy" value-ref="city-hot-poi-recall-service"/>
+                <entry key="brandPoiRecallStrategy" value-ref="brand-poi-recall-service"/>
+                <entry key="poiCorrLLRRecallStrategy" value-ref="poi-corr-llr-recall-service"/>
+                <entry key="poiCorrV2PRecallStrategy" value-ref="poi-corr-v2p-recall-service"/>
+                <entry key="poiCorrV2PLLRRecallerStrategy" value-ref="poi-corr-v2p-llr-recaller"/>
+                <entry key="poiCorrModifiedRecallerStrategy" value-ref="poi-corr-v2p-llr-modified-recaller"/>
+                <entry key="poiRecentViewCorrRecallerStrategy" value-ref="poi-real-time-view-corr-recaller"/>
+                <entry key="highStarPoiRecallerStrategy" value-ref="high-star-poi-recall-service"/>
+            </map>
+        </property>
+        <!-- 推荐服务->尝试召回策略的映射-->
+        <property name="strategyCandidateMap">
+            <map>
+                <entry key="SELECT_REC" value-ref="selectRecRecallStrategies"/>
+                <entry key="SEARCH_REC" value-ref="searchRecRecallStrategies"/>
+                <entry key="POI_DETAIL_REC" value-ref="poiDetailRecRecallStrategies"/>
+                <entry key="REC_PREORDER_POI" value-ref="poiDetailRecRecallStrategies"/>
+                <entry key="REC_VACATION_POI" value-ref="vacationRecRecallStrategies"/>
+            </map>
+        </property>
+    </bean>
+
+    <util:list id="selectRecRecallStrategies" value-type="java.lang.String">
+        <value>cityPoiRecallStrategy</value>
+        <value>cityHotPoiRecallStrategy</value>
+    </util:list>
+
+    <util:list id="searchRecRecallStrategies" value-type="java.lang.String">
+        <value>cityPoiRecallStrategy</value>
+        <value>cityHotPoiRecallStrategy</value>
+    </util:list>
+
+    <util:list id="poiDetailRecRecallStrategies" value-type="java.lang.String">
+        <value>cityPoiRecallStrategy</value>
+        <value>cityHotPoiRecallStrategy</value>
+    </util:list>
+
+    <util:list id="vacationRecRecallStrategies" value-type="java.lang.String">
+        <value>cityHotPoiRecallStrategy</value>
+    </util:list>
+
+</beans>

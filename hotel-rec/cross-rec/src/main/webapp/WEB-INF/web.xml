@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+    <display-name>Welcome 2 Meituan Hotel</display-name>
+
+    <!--监控-->
+    <context-param>
+        <param-name>jmonitor-configfile</param-name>
+        <param-value>config/jmonitor.properties</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>com.meituan.jmonitor.servlet.ContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>JMonitorHttpMonitorFilter</filter-name>
+        <filter-class>com.meituan.jmonitor.collector.http.HttpMonitorFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>JMonitorHttpMonitorFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- new resource config in the spring file, begin -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+</web-app>
+
